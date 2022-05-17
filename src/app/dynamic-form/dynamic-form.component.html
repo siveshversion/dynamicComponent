@@ -1,0 +1,23 @@
+<br>
+
+<div class="container" *ngIf="drugValues.fields">
+
+  <div *ngFor="let item of drugValues.fields">
+    <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
+
+      <h6>{{item.label}}</h6>
+
+      <input *ngIf="inputArr.includes(item.type)" [type]="item.type" [formControlName]="item.key"
+        [value]="item.value" />
+
+
+        <input class="form-control" placeholder="yyyy-mm-dd"
+        name="dp"ngbDatepicker #d="ngbDatepicker">
+
+
+
+    </form>
+
+  </div>
+
+</div>
