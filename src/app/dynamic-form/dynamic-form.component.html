@@ -1,23 +1,49 @@
 <br>
 
 <div class="container" *ngIf="drugValues.fields">
+  <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
 
-  <div *ngFor="let item of drugValues.fields">
-    <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
-
-      <h6>{{item.label}}</h6>
-
-      <input *ngIf="inputArr.includes(item.type)" [type]="item.type" [formControlName]="item.key"
-        [value]="item.value" />
+    <div *ngFor="let item of drugValues.fields">
 
 
-        <input class="form-control" placeholder="yyyy-mm-dd"
-        name="dp"ngbDatepicker #d="ngbDatepicker">
+      <span>{{item.label}}
+
+        <span *ngIf="item.type === 'date'">
+          <input class="form-control" matInput [matDatepicker]="picker" [formControlName]="item.key" [required]="true">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </span>
+
+        <span *ngIf="item.type === 'dropdown'">
+          <select class="form-select" aria-label="Default select example" [formControlName]="item.key"
+            [required]="true">
+            <option *ngFor="let dropitems of item.items" value="{{dropitems.value}}">{{dropitems.text}}</option>
+          </select>
+        </span>
+
+        <input class="form-control-padded" *ngIf="inputArr.includes(item.type)" [type]="item.type"
+          [formControlName]="item.key" [required]="true" />
 
 
+      </span>
 
-    </form>
+    </div>
 
-  </div>
+    <br>
+    <button class="btn btn-primary" type="submit" [disabled]="dynamicForm.invalid">Submit</button>
+  </form>
+  <br>
+  <table class="table table-striped" *ngIf="showTables">
+    <thead>
+      <tr>
+        <th scope="col" *ngFor="let item of drugValues.fields">{{item.label}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td  *ngFor="let value of submittedArr">{{value}}</td>
+      </tr>
+    </tbody>
+  </table>
 
 </div>

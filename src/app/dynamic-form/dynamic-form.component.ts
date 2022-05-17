@@ -1,13 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-
-interface JsonFormControls {
-  label: string;
-  key: string;
-  type: string;
-}
 
 @Component({
   selector: 'app-dynamic-form',
@@ -16,35 +10,39 @@ interface JsonFormControls {
 })
 export class DynamicFormComponent implements OnInit {
   drugValues: any = [{}];
-  inputArr: string[] = [
-    'text',
-    'password',
-    'email',
-    'number',
-    'search',
-    'tel',
-    'url',
-  ];
+  inputArr: string[] = ['number'];
+  jsonParam: any;
+  showTables: boolean = false;
+  submittedArr: any = [];
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private cdref: ChangeDetectorRef
   ) {
     this.route.queryParams.subscribe((queryParams) => {
       if (queryParams) {
         const src = '/assets/' + queryParams['drugType'] + '.json';
-        this.http.get(src).subscribe((res) => this.handleFn(res));
+        this.jsonParam = src;
+        this.performJsonCall();
       }
     });
   }
 
+  performJsonCall() {
+    this.http.get(this.jsonParam).subscribe((res) => this.handleFn(res));
+  }
+
   dynamicForm = this.formBuilder.group({});
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dynamicForm.invalid;
+    this.performJsonCall();
+  }
 
-  createForm(controls: JsonFormControls[]) {
+  createForm(controls: any[]) {
     for (const control of controls) {
-      console.log('control' + control.key);
+      console.log('formcontrolControlName: ' + control.key);
       this.dynamicForm.addControl(
         control.key,
         this.formBuilder.control(control.key, Validators.required)
@@ -60,5 +58,15 @@ export class DynamicFormComponent implements OnInit {
     }
   }
 
-  onSubmit() {}
+  ngAfterContentChecked() {
+    this.cdref.detectChanges();
+  }
+
+  onSubmit() {
+    if (this.dynamicForm.value) {
+      const obtainedData = this.dynamicForm.value;
+      this.submittedArr = Object.keys(obtainedData).map((k) => obtainedData[k]);
+      this.showTables = true;
+    }
+  }
 }
