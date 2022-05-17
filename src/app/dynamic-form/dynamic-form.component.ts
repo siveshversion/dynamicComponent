@@ -16,8 +16,7 @@ export class DynamicFormComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private formBuilder: FormBuilder,
-    private cdref: ChangeDetectorRef
+    private formBuilder: FormBuilder
   ) {
     this.route.queryParams.subscribe((queryParams) => {
       if (queryParams) {
@@ -37,7 +36,6 @@ export class DynamicFormComponent implements OnInit {
   ngOnInit(): void {}
 
   createForm(controls: any[]) {
-    const validatorsToAdd = [];
     for (const control of controls) {
       // console.log('formcontrolControlName: ' + control.key);
 
@@ -56,10 +54,6 @@ export class DynamicFormComponent implements OnInit {
     }
   }
 
-  ngAfterContentChecked() {
-    this.cdref.detectChanges();
-  }
-
   onSubmit() {
     if (this.dynamicForm.value) {
       const obtainedData = this.dynamicForm.value;
@@ -67,6 +61,4 @@ export class DynamicFormComponent implements OnInit {
       this.showTables = true;
     }
   }
-
-  handleBMI(target: any) {}
 }

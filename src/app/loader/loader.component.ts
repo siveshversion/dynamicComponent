@@ -15,11 +15,11 @@ export class LoaderComponent implements OnInit {
 
   onSubmit(formData: any) {
     if (formData.drugType) {
-      this.router.navigate(['dForm'], { queryParams: { drugType: formData.drugType }});
+      this.router.navigate(['dForm'], {
+        queryParams: { drugType: formData.drugType },
+      });
     } else {
       alert('Select any one drug type');
     }
   }
-
-
 }
