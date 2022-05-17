@@ -10,7 +10,6 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DynamicFormComponent implements OnInit {
   drugValues: any = [{}];
-  inputArr: string[] = ['number'];
   jsonParam: any;
   showTables: boolean = false;
   submittedArr: any = [];
@@ -40,7 +39,7 @@ export class DynamicFormComponent implements OnInit {
   createForm(controls: any[]) {
     const validatorsToAdd = [];
     for (const control of controls) {
-      console.log('formcontrolControlName: ' + control.key);
+      // console.log('formcontrolControlName: ' + control.key);
 
       this.dynamicForm.addControl(
         control.key,
@@ -68,4 +67,6 @@ export class DynamicFormComponent implements OnInit {
       this.showTables = true;
     }
   }
+
+  handleBMI(target: any) {}
 }

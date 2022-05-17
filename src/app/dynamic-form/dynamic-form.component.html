@@ -1,13 +1,12 @@
-<br>
+<div class="spacer"></div>
 
-<div class="container" *ngIf="drugValues.fields">
+<div class="container-sm" *ngIf="drugValues.fields">
   <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
-
-    <div *ngFor="let item of drugValues.fields">
-
-
-      <span>{{item.label}}
-
+    <div class="row" *ngFor="let item of drugValues.fields">
+      <div class="col-md-6">
+        {{item.label}}
+      </div>
+      <div class="col-md-6">
         <span *ngIf="item.type === 'date'">
           <input class="form-control" matInput [matDatepicker]="picker" [formControlName]="item.key" [required]="true">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -15,22 +14,25 @@
         </span>
 
         <span *ngIf="item.type === 'dropdown'">
-          <select class="form-select" [formControlName]="item.key" required>
+          <select class="form-select" [formControlName]="item.key" aria-placeholder="Select Gender" required>
             <option *ngFor="let dropitems of item.items" value="{{dropitems.value}}">{{dropitems.text}}</option>
           </select>
         </span>
 
-        <input class="form-control-padded" matInput *ngIf="inputArr.includes(item.type)" [type]="item.type"
-          [formControlName]="item.key" [required]="true" />
-
-      </span>
-
+        <span *ngIf="item.type === 'number'">
+          <input class="form-control-padded" matInput [type]="item.type" [formControlName]="item.key"
+            [readonly]="item.key === 'bmi'" [required]="true" /> {{ item.unit}}
+        </span>
+      </div>
     </div>
-
     <br>
-    <button class="btn btn-primary" type="submit" [disabled]="!dynamicForm.valid">Submit</button>
+    <button class="btn btn-primary" style="float:right" type="submit" [disabled]="!dynamicForm.valid">Submit</button>
   </form>
-  <br>
+</div>
+
+<br>
+<div class="container">
+
   <table class="table table-striped" *ngIf="showTables">
     <thead>
       <tr>
