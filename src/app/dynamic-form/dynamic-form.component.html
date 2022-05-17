@@ -15,22 +15,20 @@
         </span>
 
         <span *ngIf="item.type === 'dropdown'">
-          <select class="form-select" aria-label="Default select example" [formControlName]="item.key"
-            [required]="true">
+          <select class="form-select" [formControlName]="item.key" required>
             <option *ngFor="let dropitems of item.items" value="{{dropitems.value}}">{{dropitems.text}}</option>
           </select>
         </span>
 
-        <input class="form-control-padded" *ngIf="inputArr.includes(item.type)" [type]="item.type"
+        <input class="form-control-padded" matInput *ngIf="inputArr.includes(item.type)" [type]="item.type"
           [formControlName]="item.key" [required]="true" />
-
 
       </span>
 
     </div>
 
     <br>
-    <button class="btn btn-primary" type="submit" [disabled]="dynamicForm.invalid">Submit</button>
+    <button class="btn btn-primary" type="submit" [disabled]="!dynamicForm.valid">Submit</button>
   </form>
   <br>
   <table class="table table-striped" *ngIf="showTables">
@@ -41,7 +39,7 @@
     </thead>
     <tbody>
       <tr>
-        <td  *ngFor="let value of submittedArr">{{value}}</td>
+        <td *ngFor="let value of submittedArr">{{value}}</td>
       </tr>
     </tbody>
   </table>

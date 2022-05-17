@@ -35,14 +35,13 @@ export class DynamicFormComponent implements OnInit {
 
   dynamicForm = this.formBuilder.group({});
 
-  ngOnInit(): void {
-    this.dynamicForm.invalid;
-    this.performJsonCall();
-  }
+  ngOnInit(): void {}
 
   createForm(controls: any[]) {
+    const validatorsToAdd = [];
     for (const control of controls) {
       console.log('formcontrolControlName: ' + control.key);
+
       this.dynamicForm.addControl(
         control.key,
         this.formBuilder.control(control.key, Validators.required)

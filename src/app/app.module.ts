@@ -9,13 +9,15 @@ import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from  '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
-import { MatMomentDateModule } from "@angular/material-moment-adapter";
+import { MatOptionSelectionChange, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatSelectModule } from '@angular/material/select';
+
 
 const MY_FORMATS = {
   parse: {
@@ -47,12 +49,13 @@ const MY_FORMATS = {
     BrowserAnimationsModule,
     MatDatepickerModule,
     MatFormFieldModule,
-   MatMomentDateModule,
-
+    MatMomentDateModule,
     MatInputModule,
-
+    MatSelectModule
   ],
-  providers: [ { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
